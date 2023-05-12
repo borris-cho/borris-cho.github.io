@@ -8,7 +8,10 @@
     "build": "cross-env INIT_CWD=$PWD next build && cross-env NODE_OPTIONS='--experimental-json-modules' node -r esbuild-register ./scripts/postbuild.mjs",
     "serve": "next start",
     "analyze": "cross-env ANALYZE=true next build",
-    "lint": "next lint --fix --dir pages --dir components --dir lib --dir layouts --dir scripts"
+    "lint": "next lint --fix --dir pages --dir components --dir lib --dir layouts --dir scripts",
+    "predeploy": "npm run build",
+    "dbuild": "next build && next export",
+    "deploy": "touch out/.nojekyll && gh-pages -d out --dotfiles"
   },
   "dependencies": {
     "@next/bundle-analyzer": "13.1.6",
@@ -55,6 +58,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "file-loader": "^6.0.0",
+    "gh-pages": "^5.0.0",
     "globby": "11.0.3",
     "husky": "^8.0.0",
     "js-yaml": "4.1.0",

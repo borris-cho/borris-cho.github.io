@@ -1,5 +1,9 @@
 const { withContentlayer } = require('next-contentlayer')
 
+const nextConfig = {
+  basePath: '/',
+}
+
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
@@ -80,6 +84,9 @@ module.exports = () => {
       })
 
       return config
+    },
+    images: {
+      unoptimized: true,
     },
   })
 }
