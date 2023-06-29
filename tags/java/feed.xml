@@ -1,0 +1,24 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>BR Blog</title>
+      <link>https://tailwind-nextjs-starter-blog.vercel.app/blog</link>
+      <description>BR Blog</description>
+      <language>ko-kr</language>
+      <managingEditor>address@yoursite.com (fiftyyeardream)</managingEditor>
+      <webMaster>address@yoursite.com (fiftyyeardream)</webMaster>
+      <lastBuildDate>Sat, 13 May 2023 15:32:14 GMT</lastBuildDate>
+      <atom:link href="https://tailwind-nextjs-starter-blog.vercel.app/tags/java/feed.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/202305/stop-using-builder</guid>
+    <title>@Build 사용을 멈춰줘22222</title>
+    <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/202305/stop-using-builder</link>
+    <description>Java를 사용할때 Lombok의 @Builder를 이유없이 막 사용하면 안되는 이유</description>
+    <pubDate>Sat, 13 May 2023 15:32:14 GMT</pubDate>
+    <author>address@yoursite.com (fiftyyeardream)</author>
+    <category>java</category><category>lombok</category><category>guide</category>
+  </item>
+
+    </channel>
+  </rss>
