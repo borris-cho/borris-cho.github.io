@@ -1,17 +1,40 @@
 ---
-title: '@Build 사용을 멈춰줘22222'
-date: 2023-05-13T15:32:14Z
+title: 'Jenkins를 이용해 CI/CD 구축하기'
+date: 2023-07-10T10:01:01Z
 lastmod: '2023-05-13'
-tags: ['java', 'lombok', 'guide']
+tags: ['java', 'jenkins', 'CI/DC', 'Spring', 'Gitlab']
 draft: false
-summary: 'Java를 사용할때 Lombok의 @Builder를 이유없이 막 사용하면 안되는 이유'
+summary: 'Jenkins를 이용해 Spring Boot코드를 서버에 자동 배포하는 환경을 구축'
 layout: PostSimple
 bibliography: references-data.bib
 ---
 
-Lombok이 나오면서 Getter, Setter를 직접 작성하거나 IDE의 도움을 받는 시대는 끝이 났습니다.
-2222
-생각하지 않으며 개발하면서 저는 아래와 유사하게 Lombok을 사용하고 있었죠.
+개발 서버에 코드를 배포하기 위해 여러가지 체크를 해보았고 무엇을 사용할지 고민하다 Jenkins를 이용해 push방식으로 배포하기로 결정했고 이를 정리해 보았습니다.
+
+# 왜?
+
+현재 개발서버는 각각 서버에 Docker가 기동중이며 해당 docker가 있는 서버에 ftp로 파일을 올리고 docker load 명령어를 통해 이미지를 로드하고 docker run 명령어를 통해 기동하는 방식으로 배포를 하고 있습니다.
+
+이 방식은 간단하고 빠르게 배포가 가능하지만 당연하게도 수동으로 하고 있어서 불편한 점이 많았습니다.
+
+문제점은 아래와 같았습니다.
+
+1. 배포를 하기 위해 각 서버에 접속해야함
+2. 배포할 서버가 많아지면 배포하는데 시간이 오래걸림
+
+이런 문제점을 해결하고자 Jenkins를 이용해 CI/CD를 구축하기로 결정했습니다.
+
+
+# 로컬 환경에서의 Jenkins 설치
+
+## Jenkins 이미지 다운로드
+
+아래 명령어를 실행시켜 Jenkins LTS(Long Term Support) 버전의 이미지를 다운로드 합니다.
+
+```bash
+docker pull jenkins/jenkins:lts
+```
+
 
 ```java
 package com.br.indiefit.gamerelease.domain;
@@ -26,18 +49,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class Category {
-    private Long id;
-    private String title;
-    private Long creatorId;
-    private LocalDateTime createdDate;
-}
+
 ```
 
 그리고 아래와 같이 해당 클래스의 인스턴스를 다음과 같이 사용하곤 했습니다.
