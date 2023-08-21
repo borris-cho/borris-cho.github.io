@@ -1,5 +1,5 @@
 ---
-title: 'Flutter 설치 macOS'
+title: 'Flutter 시작'
 date: 2023-07-18T10:01:01Z
 lastmod: '2023-07-18'
 tags: ['flutter']
@@ -26,507 +26,144 @@ $sudo softwareupdate --install-rosetta --agree-to-license
 
 1. [Flutter SDK 다운로드](https://docs.flutter.dev/get-started/install/macos) 페이지에서 OS버전에 맞는 SDK를 다운 받습니다.
 2. 다운 받은 파일을 압축 해제 합니다.
-```
+
+예를 들면 다음과 같습니다. 경로는 개인에 맞게 변경하시면 됩니다.
 
 ```
-
-
-# 왜?
-
-현재 개발서버는 각각 서버에 Docker가 기동중이며 해당 docker가 있는 서버에 ftp로 파일을 올리고 docker load 명령어를 통해 이미지를 로드하고 docker run 명령어를 통해 기동하는 방식으로 배포를 하고 있습니다.
-
-이 방식은 간단하고 빠르게 배포가 가능하지만 당연하게도 수동으로 하고 있어서 불편한 점이 많았습니다.
-
-문제점은 아래와 같았습니다.
-
-1. 배포를 하기 위해 각 서버에 접속해야함
-2. 배포할 서버가 많아지면 배포하는데 시간이 오래걸림
-
-이런 문제점을 해결하고자 Jenkins를 이용해 CI/CD를 구축하기로 결정했습니다.
-
-
-# 로컬 환경에서의 Jenkins 설치
-
-## Jenkins 이미지 다운로드
-
-아래 명령어를 실행시켜 Jenkins LTS(Long Term Support) 버전의 이미지를 다운로드 합니다.
-
-```bash
-docker pull jenkins/jenkins:lts
+cd ~/development
+unzip ~/Downloads/flutter_macos_3.10.6-stable.zip
 ```
 
-
-```java
-package com.br.indiefit.gamerelease.domain;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
+3. 환경 변수에 방금전 압축푼 flutter/bin 경로를 추가 및 확인을 합니다.
 
 
 ```
+$ vi ~/.zshrc
 
-그리고 아래와 같이 해당 클래스의 인스턴스를 다음과 같이 사용하곤 했습니다.
+export FLUTTER_HOME="FLUTTER압축푼위치/flutter"
 
-```java
-Category category = CategoryEntity.builder()
-                .title("액션")
-                .creatorId(userId)
-                .build();
-
-...
-
-category.setTitle("롤플레잉");
+export PATH="$PATH:$FLUTTER_HOME/bin"
 ```
 
-이렇게 @Build를 사용하는것이 옳을까요?
+```
+$source ~/.zshrc
 
-## 아뇨 옳지 않습니다
-
-빌더 패턴은 변경할 수 없는 객체를 생성하는 패턴이며 인스턴스화 되면 절대 수정하면 안됩니다.
-
-하지만 객체가 만약에 변경이 가능해야하는 객체라면 어떻게 해야할까요?
-
-
-
-
-A post on the new features introduced in v1.0. New features:
-
-First load JS decreased from 43kB to 39kB despite all the new features added! [^1]
-
-[^1]: With the new changes in Nextjs 12, first load JS increase to 45kB.
-
-See [upgrade guide](#upgrade-guide) below if you are migrating from v0 version of the template.
-
-## Theme colors
-
-You can easily modify the theme color by changing the primary attribute in the tailwind config file:
-
-```js:tailwind.config.js
-theme: {
-    colors: {
-      primary: colors.teal,
-      gray: colors.neutral,
-      ...
-    }
-  ...
-}
+Flutter docter명령어를 사용해 설치가 잘 되었는지 확인합니다.
+$flutter doctor
 ```
 
-The primary color attribute should be assigned an object with keys from 50, 100, 200 ... 900 and the corresponding color code values.
-
-Tailwind includes great default color palettes that can be used for theming your own website. Check out [customizing colors documentation page](https://tailwindcss.com/docs/customizing-colors) for the full range of options.
-
-Migrating from v1? You can revert to the previous theme by setting `primary` to `colors.sky` (Tailwind 2.2.2 and above, otherwise `colors.lightBlue`) and changing gray to `colors.gray`.
-
-From v1.1.2+, you can also customize the style of your code blocks easily by modifying the `css/prism.css` stylesheet. Token classnames are compatible with prismjs
-so you can copy and adapt token styles from a prismjs stylesheet e.g. [prism themes](https://github.com/PrismJS/prism-themes).
-
-## Xdm MDX compiler
-
-We switched the MDX bundler from [next-mdx-remote](https://github.com/hashicorp/next-mdx-remote) to [mdx-bundler](https://github.com/kentcdodds/mdx-bundler).
-This uses [xdm](https://github.com/wooorm/xdm) under the hood, the latest micromark 3 and remark, rehype libraries.
-
-**Warning:** If you were using custom remark or rehype libraries, please upgrade to micromark 3 compatible ones. If you are upgrading, please delete `node_modules` and `package-lock.json` to avoid having past dependencies related issues.
-
-[xdm](https://github.com/wooorm/xdm) contains multiple improvements over [@mdx-js/mdx](https://github.com/mdx-js/mdx), the compiler used internally by next-mdx-remote, but there might be some breaking behaviour changes.
-Please check your markdown output to verify.
-
-Some new possibilities include loading components directly in the mdx file using the import syntax and including js code which could be compiled and bundled at the build step.
-
-For example, the following jsx snippet can be used directly in an MDX file to render the page title component:
-
-```jsx
-// Or import PageTitle from './components/PageTitle.js' if you are using js
-import PageTitle from './components/PageTitle.tsx'
-;<PageTitle> Using JSX components in MDX </PageTitle>
-```
-
-The default configuration resolves all components relative to the `components` directory.
-
-**Note**:
-Components which require external image loaders also require additional esbuild configuration.
-Components which are dependent on global application state on lifecycle like the Nextjs `Link` component would also not work with this setup as each mdx file is built independently.
-For such cases, it is better to use component substitution.
-
-## Table of contents component
-
-Inspired by [Docusaurus](https://docusaurus.io/docs/next/markdown-features/inline-toc) and Gatsby's [gatsby-remark-table-of-contents](https://www.gatsbyjs.com/plugins/gatsby-remark-table-of-contents/),
-the `toc` variable containing all the top level headings of the document is passed to the MDX file and can be styled accordingly.
-To make generating a table of contents (TOC) simple, you can use the existing `TOCInline` component.
-
-For example, the TOC in this post was generated with the following code:
-
-```jsx
-<TOCInline toc={props.toc} exclude="Overview" toHeading={2} />
-```
-
-You can customise the headings that are displayed by configuring the `fromHeading` and `toHeading` props, or exclude particular headings
-by passing a string or a string array to the `exclude` prop. By default, all headings that are of depth 3 or smaller are indented. This can be configured by changing the `indentDepth` property.
-A `asDisclosure` prop can be used to render the TOC within an expandable disclosure element.
-
-Here's the full TOC rendered in a disclosure element.
-
-```jsx
-<TOCInline toc={props.toc} asDisclosure />
-```
-
-<TOCInline toc={props.toc} asDisclosure />
-
-## Layouts
-
-You can map mdx blog content to layout components by configuring the frontmatter field. For example, this post is written with the new `PostSimple` layout!
-
-### Adding new templates
-
-layout templates are stored in the `./layouts` folder. You can add your React components that you want to map to markdown content in this folder.
-The component file name must match that specified in the markdown frontmatter `layout` field.
-
-The only required field is `children` which contains the rendered MDX content, though you would probably want to pass in the frontMatter contents and render it in the template.
-
-You can configure the template to take in other fields - see `PostLayout` component for an example.
-
-Here's an example layout which you can further customise:
-
-```jsx
-export default function ExampleLayout({ frontMatter, children }) {
-  const { date, title } = frontMatter
-
-  return (
-    <SectionContainer>
-      <div>{date}</div>
-      <h1>{title}</h1>
-      <div>{children}</div>
-    </SectionContainer>
-  )
-}
-```
-
-### Configuring a blog post frontmatter
-
-Use the `layout` frontmatter field to specify the template you want to map the markdown post to. Here's how the frontmatter of this post looks like:
+`doctor`는 flutter를 사용하기 위한 환경을 확인하는 명령어 입니다. 보통 아래와 같이 Android SDK가 없다고 표시가 되는데 이제 차차 설치를 진행 하도록 하겠습니다.
 
 ```
----
-title: 'New features in v1'
-date: '2021-05-26   '
-tags: ['next-js', 'tailwind', 'guide']
-draft: false
-summary: 'Introducing the new layout features - you can map mdx blog content to layout components by configuring the frontmatter field'
-layout: PostSimple
----
+[-] Android toolchain - develop for Android devices
+    • Android SDK at /Users/dash/Library/Android/sdk
+    ✗ Android SDK is missing command line tools; download from https://goo.gl/XxQghQ
+    • Try re-installing or updating your Android SDK,
+      visit https://docs.flutter.dev/setup/#android-setup for detailed instructions.
 ```
 
-You can configure the default layout in the respective page section by modifying the `DEFAULT_LAYOUT` variable.
-The `DEFAULT_LAYOUT` for blog posts page is set to `PostLayout`.
+# Platform 설정
 
-### Extend
+## IOS 설정
 
-`layout` is mapped to wrapper which wraps the entire MDX content.
+### Xcode 설치
+iOS용 앱을 만들려면 Xcode를 설치 해야 합니다.
 
-```jsx
-export const MDXComponents = {
-  Image,
-  a: CustomLink,
-  pre: Pre,
-  wrapper: ({ components, layout, ...rest }) => {
-    const Layout = require(`../layouts/${layout}`).default
-    return <Layout {...rest} />
-  },
-}
+- [Xcode](https://developer.apple.com/xcode/)에서 설치하거나 AppStore에서 설치 하세요.
+- 설치가 완료되면 최신버전을 사용하도록 아래 명령어를 입력합니다.
+    ```
+    sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
+    sudo xcodebuild -runFirstLaunch
+    ```
+    만약 다른 버전을 사용하서야 한다면 설치후 --switch 뒤에 경로를 변경하면 됩니다.
+- Xcode를 열고 확인하거나 sudoxcodebuild -license 명령어를 통해 라이센스를 확인합니다.
 
-export const MDXLayoutRenderer = ({ layout, mdxSource, ...rest }) => {
-  const MDXLayout = useMemo(() => getMDXComponent(mdxSource), [mdxSource])
+xcode 옛날버전도 실행하거나 테스트 하는데 문제는 없을 수 있으나 최신버전을 권장합니다.
 
-  return <MDXLayout layout={layout} components={MDXComponents} {...rest} />
-}
+### IOS simulator 설정
+
+iOS 시뮬레이터에서 Flutter 앱을 실행하고 테스트하기 하려면 다음 단계를 따르세요.
+
+- 아래 명령어를 입력해 Simulator를 엽니다.
+    ```
+    open -a Simulator
+    ```
+- Simulator가 64Bit기기(IPhone5 이상)을 사용하는지 확인하세요.
+    메뉴에서 File > Open Simulator에서 확인 할 수 있습니다.
+- 개발 장비의 크기에 따라서 시뮬레이션된 화면의 크기를 변경할 수 있습니다.
+    메뉴에서 Window > Scale에서 확인 할 수 있습니다.
+
+### iOS Devices에 배포
+
+Flutter 앱을 iPhone, iPad에 배포하려면 CocoaPods가 필요합니다.
+
+차후 테스트 폰에 배포시 정리 할 예정.
+
+# Android 설정
+
+Flutter는 Android 플랫폼 Dependency를 제공하기 위해 Android Studio에 의존합니다. 그러나 여러 편집기에서 Flutter 앱을 작성할 수 있습니다. 해당 문서는 Android studio 기점으로 작성 했습니다.
+
+- [Android Studio](https://developer.android.com/studio)에서 Android Studio를 설치 합니다.
+- Android Studio를 시작하고 'Android Studio Setup Widzard'를 진행합니다. 이렇게 하면 Android용으로 개발할 때 Flutter에 필요한 최신 Android SDK, Android SDK 명령줄 도구 및 Android SDK 빌드 도구가 설치됩니다.
+- Flutter doctor를 실행하여 Flutter가 설치한 Android Studio를 찾았는지 확인합니다.
+    Flutter가 이를 찾을 수 없는 경우 flutter config --android-studio-dir=디렉토리를 실행하여 Android Studio가 설치된 디렉토리를 설정합니다.
+    예를들면 다음과 같습니다.
+    ```
+    flutter config --android-studio-dir=/Applications/Android\ Studio.app/Contents
+    ```
+
+## Android Device에 설정
+
+차후 Android 디바이스 준비하고 작업시 해당 부분 정리 합니다.
+
+## Android Emulator 설정
+
+Android 에뮬레이터에서 Flutter 앱을 실행하고 테스트하기 위해 아래 단계를 진행합니다.
+
+- 안드로이드 스튜디오를 실행합니다.
+- Welcome to Android Studio창에서 More Action을 선택하고 Virtual Device Manager를 클릭합니다.
+- Device Manager가 뜨고 거기서 Create device버튼을 누릅니다.
+- 원하는 디바이스 이미지를 선택 하고 Next버튼을 누릅니다.
+- Verify Configuration의 Emulated Performance에서 Graphics를 Hardware-GLES 2.0으로 선택합니다.
+- Finish버튼을 누릅니다.
+- Device Manager에 생성된 Device의 실행버튼을 클릭합니다.
+
+# 툴 사용 - Android Studio And ItelliJ
+
+- 안드로이드 스튜디오를 시작합니다.
+- 플러그인을 클릭합니댜.
+- `Flutter` 플러그인을 선택하고 설치를 클릭합니다.
+- `Dart` 플러그인을 설치하라는 메시지가 표시되면 `예`를 클릭합니다.
+- 메시지가 표시되면 다시 시작을 클릭합니다.
+
+# 처음 만드는 Flutter App
+
+- IDE를 열고 New Flutter Project 를 선택합니다.
+- `Flutter`를 선택하고 SDK의 위치로 Flutter SDK 경로를 확인합니다. 그리고 Next 버튼을 클릭합니다.
+- 프로젝트 이름을 입력합니다.
+- 프로젝트 유형으로 애플리케이션을 선택합니다.
+- Create버튼을 클릭합니다.
+- Android Studio에서 프로젝트를 생성할 때까지 기다립니다.
+- 생성되면 /lib/main.dart파일이 표시되며 이것은 앱의 진입점입니다.
+
+## 앱 실행
+
+![run](/static/images/flutter/start_1.png)
+
+## Hot Reload
+
+Flutter는 Hot Reload기능을 제공해주고 있으며 앱을 실행하고 코드를 수정하면 변경 사항이 즉시 반영됩니다.
+
+아래 코드를 수정하고 저장하거나 Hot Reload버튼을 클릭하면 변경 사항이 즉시 반영됩니다.
+
+```dart
+const Text(
+    'You have pushed the button this many times:',
+)
+
+const Text(
+    'Bryan Adams - Heaven',
+)
 ```
 
-Use the `MDXLayoutRenderer` component on a page where you want to accept a layout name to map to the desired layout.
-You need to pass the layout name from the layout folder (it has to be an exact match).
-
-## Analytics
-
-The template now supports [plausible](https://plausible.io/), [simple analytics](https://simpleanalytics.com/) and google analytics.
-Configure `siteMetadata.js` with the settings that correspond with the desired analytics provider.
-
-```js
-analytics: {
-    // supports plausible, simpleAnalytics or googleAnalytics
-    plausibleDataDomain: '', // e.g. tailwind-nextjs-starter-blog.vercel.app
-    simpleAnalytics: false, // true or false
-    googleAnalyticsId: '', // e.g. UA-000000-2 or G-XXXXXXX
-  },
-```
-
-Custom events are also supported. You can import the `logEvent` function from `@components/analytics/[ANALYTICS-PROVIDER]` file and call it when
-triggering certain events of interest. _Note_: Additional configuration might be required depending on the analytics provider, please check their official
-documentation for more information.
-
-## Blog comments system
-
-We have also added support for [giscus](https://github.com/laymonage/giscus), [utterances](https://github.com/utterance/utterances) or disqus.
-To enable, simply configure `siteMetadata.js` comments property with the desired provider and settings as specified in the config file.
-
-```js
-comment: {
-    // Select a provider and use the environment variables associated to it
-    // https://vercel.com/docs/environment-variables
-    provider: 'giscus', // supported providers: giscus, utterances, disqus
-    giscusConfig: {
-      // Visit the link below, and follow the steps in the 'configuration' section
-      // https://giscus.app/
-      repo: process.env.NEXT_PUBLIC_GISCUS_REPO,
-      repositoryId: process.env.NEXT_PUBLIC_GISCUS_REPOSITORY_ID,
-      category: process.env.NEXT_PUBLIC_GISCUS_CATEGORY,
-      categoryId: process.env.NEXT_PUBLIC_GISCUS_CATEGORY_ID,
-      mapping: 'pathname', // supported options: pathname, url, title
-      reactions: '1', // Emoji reactions: 1 = enable / 0 = disable
-      // Send discussion metadata periodically to the parent window: 1 = enable / 0 = disable
-      metadata: '0',
-      // theme example: light, dark, dark_dimmed, dark_high_contrast
-      // transparent_dark, preferred_color_scheme, custom
-      theme: 'light',
-      // theme when dark mode
-      darkTheme: 'transparent_dark',
-      // If the theme option above is set to 'custom`
-      // please provide a link below to your custom theme css file.
-      // example: https://giscus.app/themes/custom_example.css
-      themeURL: '',
-    },
-    utterancesConfig: {
-      // Visit the link below, and follow the steps in the 'configuration' section
-      // https://utteranc.es/
-      repo: process.env.NEXT_PUBLIC_UTTERANCES_REPO,
-      issueTerm: '', // supported options: pathname, url, title
-      label: '', // label (optional): Comment 💬
-      // theme example: github-light, github-dark, preferred-color-scheme
-      // github-dark-orange, icy-dark, dark-blue, photon-dark, boxy-light
-      theme: '',
-      // theme when dark mode
-      darkTheme: '',
-    },
-    disqus: {
-      // https://help.disqus.com/en/articles/1717111-what-s-a-shortname
-      shortname: process.env.NEXT_PUBLIC_DISQUS_SHORTNAME,
-    },
-  },
-```
-
-## Multiple authors
-
-Information on authors is now split from `siteMetadata.js` and stored in its own `data/authors` folder as a markdown file. Minimally, you will need to have a `default.md` file with authorship information. You can create additional files as required and the file name will be used as the reference to the author.
-
-Here's how an author markdown file might look like:
-
-```md:default.md
----
-name: Tails Azimuth
-avatar: /static/images/avatar.png
-occupation: Professor of Atmospheric Science
-company: Stanford University
-email: address@yoursite.com
-twitter: https://twitter.com/Twitter
-linkedin: https://www.linkedin.com
-github: https://github.com
----
-
-A long description of yourself...
-```
-
-You can use this information in multiple places across the template. For example in the about section of the page, we grab the default author information with this line of code:
-
-```js
-const authorDetails = await getFileBySlug('authors', ['default'])
-```
-
-This is rendered in the `AuthorLayout` template.
-
-### Multiple authors in blog post
-
-The frontmatter of a blog post accepts an optional `authors` array field. If no field is specified, it is assumed that the default author is used. Simply pass in an array of authors to render multiple authors associated with a post.
-
-For example, the following frontmatter will display the authors given by `data/authors/default.md` and `data/authors/sparrowhawk.md`
-
-```yaml
-title: 'My first post'
-date: '2021-01-12'
-draft: false
-summary: 'My first post'
-authors: ['default', 'sparrowhawk']
-```
-
-A demo of a multiple authors post is shown in [Introducing Tailwind Nextjs Starter Blog post](/blog/introducing-tailwind-nextjs-starter-blog).
-
-## Copy button for code blocks
-
-Hover over a code block and you will notice a GitHub-inspired copy button! You can modify `./components/Pre.js` to further customise it.
-The component is passed to `MDXComponents` and modifies all `<pre>` blocks.
-
-## Line highlighting and line numbers
-
-Line highlighting and line numbers are now supported out of the box thanks to the new [rehype-prism-plus plugin](https://github.com/timlrx/rehype-prism-plus)
-
-The following javascript code block:
-
-````
-```js {1, 3-4} showLineNumbers
-var num1, num2, sum
-num1 = prompt('Enter first number')
-num2 = prompt('Enter second number')
-sum = parseInt(num1) + parseInt(num2) // "+" means "add"
-alert('Sum = ' + sum) // "+" means combine into a string
-```
-````
-
-will appear as:
-
-```js {1,3-4} showLineNumbers
-var num1, num2, sum
-num1 = prompt('Enter first number')
-num2 = prompt('Enter second number')
-sum = parseInt(num1) + parseInt(num2) // "+" means "add"
-alert('Sum = ' + sum) // "+" means combine into a string
-```
-
-To modify the styles, change the following class selectors in the `prism.css` file:
-
-```css
-.code-highlight {
-  @apply float-left min-w-full;
-}
-
-.code-line {
-  @apply -mx-4 block border-l-4 border-opacity-0 pl-4 pr-4;
-}
-
-.code-line.inserted {
-  @apply bg-green-500 bg-opacity-20;
-}
-
-.code-line.deleted {
-  @apply bg-red-500 bg-opacity-20;
-}
-
-.highlight-line {
-  @apply -mx-4 border-l-4 border-primary-500 bg-gray-700 bg-opacity-50;
-}
-
-.line-number::before {
-  @apply -ml-2 mr-4 inline-block w-4 text-right text-gray-400;
-  content: attr(line);
-}
-```
-
-## Newletter component (v1.1.3)
-
-Introduced in v1.1.3, the newsletter component gives you an easy way to build an audience. It integrates with the following providers:
-
-- [Mailchimp](https://mailchimp.com/)
-- [Buttondown](https://buttondown.email/)
-- [Convertkit](https://convertkit.com/)
-
-To use it, specify the provider which you are using in the config file and add the necessary environment variables to the `.env` file.
-For more information on the required variables, check out `.env.sample.`
-
-Two components are exported, a default `NewsletterForm` and a `BlogNewsletterForm` component, which is also passed in as an MDX component
-and can be used in a blog post:
-
-```jsx
-<BlogNewsletterForm title="Like what you are reading?" />
-```
-
-<BlogNewsletterForm title="Like what you are reading?" />
-
-The component relies on nextjs's [API routes](https://nextjs.org/docs/api-routes/introduction) which requires a server-side instance of nextjs to be setup
-and is not compatible with a 100% static site export. Users should either self-host or use a compatible platform like Vercel or Netlify which supports this functionality.
-
-A static site compatible alternative is to substitute the route in the newsletter component with a form API endpoint provider.
-
-## Bibliography and Citations (v1.2.1)
-
-`rehype-citation` plugin is added to the xdm processing pipeline in v1.2.1. This allows you to easily format citations and insert bibliography from an existing bibtex or CSL-json file.
-
-For example, the following markdown code sample:
-
-```md
-Standard citation [@Nash1950]
-In-text citations e.g. @Nash1951
-Multiple citations [see @Nash1950; @Nash1951, page 50]
-
-**References:**
-
-[^ref]
-```
-
-is rendered to the following:
-
-Standard citation [@Nash1950]  
-In-text citations e.g. @Nash1951  
-Multiple citations [see @Nash1950; @Nash1951, page 50]
-
-**References:**
-
-[^ref]
-
-A bibliography will be inserted at the end of the document, but this can be overwritten by specifying a `[^Ref]` tag at the intended location.
-The plugin uses APA citation formation, but also supports the following CSLs, 'apa', 'vancouver', 'harvard1', 'chicago', 'mla', or a path to a user-specified CSL file.
-
-See [rehype-citation readme](https://github.com/timlrx/rehype-citation) for more information on the configuration options.
-
-## Self-hosted font (v1.5.0)
-
-Google font has been replaced with self-hosted font from [Fontsource](https://fontsource.org/). This gives the following [advantages](https://fontsource.org/docs/introduction):
-
-> Self-hosting brings significant performance gains as loading fonts from hosted services, such as Google Fonts, lead to an extra (render blocking) network request. To provide perspective, for simple websites it has been seen to double visual load times.
->
-> Fonts remain version locked. Google often pushes updates to their fonts without notice, which may interfere with your live production projects. Manage your fonts like any other NPM dependency.
->
-> Commit to privacy. Google does track the usage of their fonts and for those who are extremely privacy concerned, self-hosting is an alternative.
-
-This leads to a smaller font bundle and a 0.1s faster load time ([webpagetest comparison](https://www.webpagetest.org/video/compare.php?tests=220201_AiDcFH_f68a69b758454dd52d8e67493fdef7da,220201_BiDcMC_bf2d53f14483814ba61e794311dfa771)).
-
-To change the default Inter font:
-
-1. Install the preferred [font](https://fontsource.org/fonts) - `npm install -save @fontsource/<font-name>`
-2. Update the import at `pages/_app.js`- `import '@fontsource/<font-name>.css'`
-3. Update the `fontfamily` property in the tailwind css config file
-
-## Upgrade guide
-
-There are significant portions of the code that has been changed from v0 to v1 including support for layouts and a new mdx engine.
-
-There's also no real reason to change if the previous one serves your needs and it might be easier to copy
-the component changes you are interested in to your existing blog rather than migrating everything over.
-
-Nonetheless, if you want to do so and have not changed much of the template, you could clone the new version and copy over the blog post over to the new template.
-
-Another alternative would be to pull the latest template version with the following code:
-
-```bash
-git remote add template git@github.com:timlrx/tailwind-nextjs-starter-blog.git
-git pull template v1 --allow-unrelated-histories
-rm -rf node_modules
-```
-
-You can see an example of such a migration in this [commit](https://github.com/timlrx/timlrx.com/commit/bba1c185384fd6d5cdaac15abf802fdcff027286) for my personal blog.
-
-v1 also uses `feed.xml` rather than `index.xml`, to avoid some build issues with Vercel. If you are migrating you should add a redirect to `next.config.js` like so:
-
-```js
-async redirects() {
-  return [
-    {
-      source: '/:path/index.xml',
-      destination: '/:path/feed.xml',
-      permanent: true,
-    }
-  ]
-}
-```
+참고로 성능 테스트를 위해서는 Hot Reload를 사용하지 않는 것이 좋습니다. 자세한건 차후 Build에서 알아보도록 하겠습니다.
