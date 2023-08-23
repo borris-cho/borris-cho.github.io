@@ -221,6 +221,10 @@ Using the template? Support this effort by giving a star on GitHub, sharing your
 
 [MIT](https://github.com/timlrx/tailwind-nextjs-starter-blog/blob/master/LICENSE) © [Timothy Lin](https://www.timrlx.com)
 
+## 배포
+
+- npm run dbuild
+- npm run deploy
 
 
 https://borris-cho.github.io/
